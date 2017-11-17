@@ -36,7 +36,7 @@
 \maketitle
 
 \begin{abstract}
-Recently, the Qos(Qaulity of Serivce) of Web Service that includes response time, thoughout put and so on that needs more accuracy prediction. For many web service  callers, choosing the appropriate service in right time should be more significant events. So the web serivce recommendation is right to be the choice. The collaborative filtering is major approach to predict the Qos of more web service through the observed data. But the sparse density of data need new technology to enhance the accuracy of prediction. And the matrix factorization is aslo the common measure to solve the prediction. In this paper, we propose the new hybrid approach that conbined the predictions with random-walk based and matrix facotrizations. Comprehensive experiments on the QoS data set of real-world web service, that our approach achieve the more accuracy predictions.
+Recently, the Qos(Qaulity of Serivce) of Web Service that includes response-time, throughput and so on that needs more accuracy prediction. For many web service  callers, choosing the appropriate service in right time should be more significant events. So the web serivce recommendation is right to be the choice. The collaborative filtering is major approach to predict the Qos of more web service through the observed data. But the sparse density of data need new technology to enhance the accuracy of prediction. And the matrix factorization is aslo the common measure to solve the prediction. In this paper, we propose the new hybrid approach that combined the predictions with random-walk based and matrix facotrizations. Comprehensive experiments on the QoS data set of real-world web service, that our approach achieve the more accuracy predictions.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -45,49 +45,74 @@ Recently, the Qos(Qaulity of Serivce) of Web Service that includes response time
 
 \IEEEpeerreviewmaketitle
 
-
+%=========================================================================
 \section{Introduction}
-Overview the past five years.
-\par Web Service predictions technology developing fastly.
-\par The CF(Collaborative Filtering)-based have been widely used.
-\par The MF(Matrix Facotrization) has also been chosen for its accuracy.
-\par The random-walk that based on RankPage alike measures (the hidden Markov chain theory) to get more appropriate neighbors ranking with the transition matrix.
-\par The contributions we made as following:
-1. We conbine the cf with mf.
-2. We try to examine the elements which affects the accuracy of experiments.
-3. We conduct the experiments on real-world datasets. achiving the most accuracy MAE.
-4. Right this is test
+\par Overview the past few years, the collaborative filtering and matrix factorization have successed in traditional fields of recommendation, such as Goods, Music, Moive and so on. The recommendation in web service was effected by the achievements. However, the scenario in web service is more complex that suffers from sparse data and incomplete related information. There are so many different web services distributting over heterogeneous network which contains several auto-systems. So the recommendation in web service should solve the problems that sparse QoS(Quality of Service) value collected from various with the untrusted infomation about location or network. In a word, more measures should be made to enhanced the limited information to achieve the more accuracy rate of web service recommendation. Only that, the system of web service can provide the more quality service.
+\par Web Service QoS predicted information enhanced technology is developing fastly. For example, time-aware recommendation that makes prediction by history call record, location-aware recommendation that make use of numbers of AS(auto system), IP or GPS(Global Position System). But the measures all achieve improvement in accuracy rate of prediction in small scale with the sparse data. Athough the information is critical to prediction, the experiments prove the factor that the more appropriate neighhorhood ranking can really boost the accuracy rate of prediction. So the paper that Random Walk Models can efficiently work in real-world datasets in the past year. With the transition probability matrix which based on the principle of markov random process, the undirected connected users can calcuate the similarity for neighborhood selection.
+\par In the field of web service recommendation, the random-walk models is efficient, but the accuracy rate of prediction need more improvement. The matrix factorization had ever solved the sparse efficiently in similar scenario. Naturally, we will try to combine the random-walk model with the matrix factorization with the good performance. And the matrix factorization also is the best measure to reduction of dimensions, when we calculate the similarity between user and user, the time complexity will be smaller. With high-efficiency algorithm, the hybrid algorithm improve the accuracy rate of prediction in final.
+\par  In summary, to solve the web service recommendation and to increase the accuracy rate of Qos prediction, in this paper, the contributions we made as following:
+%=========================================================================
+\begin{itemize}
+\item We find the latent dimension of matrix factorization with statistic method, and explore the extreme rate of data mining in known probability.
+\item We propose the hybird approach to combine the user-based collaborative filtering with matrix factorization.
+\item We conduct the experiments on real-world datasets, and achieve the best accuracy rate of QoS prediction.
+\end{itemize}
 
-\section{Initition of sparse density data}
-\subsection{A. What  }
+%=========================================================================
+\par The rest of this paper is organized as follows. Section \ref{S-RW} summarizes the related work and our thought about sparse dataset. Section \ref{S-HRWMF} introduces our approach to combine the CF and MF algorithm. Section \ref{S-EE} reports the experiments and analyst and compare the result of approaches. Section \ref{S-CN} concludes the paper and discusses the future work. 
+
+% \subsection{A. What  }
+% Subsection text here.
+% \subsection{B. How to  }
+% Subsection text here.
+% \subsection{C. Is there extreme rate of data mining  }
+% Subsection text here.
+
+%=========================================================================
+\section{Related Work}\label{S-RW}
+In this section, we will introduce the initition of spares density data, and explore the extreme rate of data mining in ideal environment that the sampling rate given in advance. Then the review of technology of recommendations will be displayed, includes collobrative filting, matrix factorization, and random-walk model.
+
+\subsection{Initition of sparse density data}
+\par In the real-world dataset environment, our recommendation system samples the whole dateset with d density.  Suppose that the Matrix have m users, n services, and the $Q\in \textbf{R}^{m\times n}$. $q_{ij}$ means the qos of user i called service j.
+
+
+\par The relationship between the method choosen and accuracy rate of prediction is clearly displayed.
+
+\subsection{The extreme rate of data mining}
 Subsection text here.
-\subsection{B. How to  }
-Subsection text here.
-\subsection{C. Is there extreme rate of data mining  }
-Subsection text here.
+
+\subsection{User-based Collaborative Filtering}
+The CF(Collaborative Filtering)-based have been widely used.
+
+\subsection{Matrix facotorization}
+The MF(Matrix Facotrization) has also been chosen for its accuracy.
+
+\subsection{Random-Walk model}
+The random-walk that based on RankPage alike measures (the hidden Markov chain theory) to get more appropriate neighbors ranking with the transition matrix.
 
 
-\section{Related Work}
-The conclusion goes here.
-\subsection{A. Collaborative Filtering on user }
-Subsection text here.
 
-\subsubsection{B. Random-walk neighbors ranking}
-Subsubsection text here.
-
-\subsubsection{C. Matrix facotorization }
-Subsubsection text here.
-
-\section{Hybrid appoach with RW and MF}
+%=========================================================================
+\section{Hybrid appoach with RW and MF}\label{S-HRWMF}
 Ssdfsdfsdfsdfsdf
 
-\section{Conclusion}
+%=========================================================================
+\section{Experiment and Evaluation}\label{S-EE}
+\subsection{Dataset and Description}
+Subsection text here.
+\subsection{Evaluation Metric and Parameter}
+Subsection text here.
+\subsection{Result Accuracy rate and Comparision}
+Subsection text here.
+\subsection{Analysis and Deduction}
+Subsection text here.
+
+%=========================================================================
+\section{Conclusion}\label{S-CN}
  The conclusion can be summarized by this.
 
-% use section* for acknowledgment
+%=========================================================================
 \section*{Acknowledgment}
-
-
 The authors would like to thank...
 
 
