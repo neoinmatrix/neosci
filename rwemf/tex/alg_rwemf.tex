@@ -1,0 +1,55 @@
+\begin{algorithm}  
+\caption{the RWEMF}  
+\label{alg_RWEMF}  
+\begin{algorithmic}
+\REQUIRE $Q$ , $\overline{U}$ ,$max\_iter$,$min\_thr$,$\lambda_{mf}$,$\lambda_{un}$,
+\ENSURE $Q^{*}$
+\STATE initialize $U_{i},S_{j}$ with random value
+\STATE // decompose the matrix Q to U and S
+\FOR {$t = 0$ to $max\_iter$}
+    \STATE $U_{i} =U_{i}-(Q_{ij}-U_{i} \cdot S_{j}) -\lambda_{mf} U_{i}$
+    \STATE $S_{i} =S_{j}-(Q_{ij}-U_{i} \cdot S_{j}) -\lambda_{mf} S_{i}$
+    \STATE $loss=\sum{(Q_{ij}-U_{i} \cdot S_{j})}$
+    \IF {$loss < min\_thr$} 
+        \STATE break
+    \ENDIF 
+\ENDFOR
+\STATE // calucate the similarity matrix 
+\FOR {$i = 0$ to m}
+    \FOR {$j = 0$ to m}
+        \STATE $Sim_{ij}=\frac{1}{1+\frac{1}{N_{ij}}\sum{(U_{i}-U_{j})^2}}$
+    \ENDFOR
+\ENDFOR
+\STATE // calucate the transtion matrix 
+\FOR {$i = 0$ to m}
+    \FOR {$j = 0$ to m}
+        \STATE $M_{ij}=\frac{Sim_{ij}}{Sim_{i}}$
+    \ENDFOR
+\ENDFOR
+\STATE // fix the similarity matrix with transtion matrix
+\FOR {$i = 0$ to m}
+
+    \FOR {$j = 0$ to m}
+        \STATE $\varphi_{i}=\frac{1}{N(j)} \cdot \sum{\frac{Sim_{ij}}{P^{*}_{ij}}} $    
+        \STATE $Sim_{ij}^{*}=\frac
+{\varphi_{i} \times P^{*}_{ij} + \varphi_{j} \times P^{*}_{ji}
+}{2}$
+    \ENDFOR
+\ENDFOR
+
+\STATE // get the prediction by similarity matrix
+\FOR {$i = 0$ to m}
+    \FOR {$j = 0$ to m}
+        \STATE $cf=\frac{
+  \sum_{j \in TopK_{i}}{Sim_{ij} \times (Q_{jk}-\overline{Q_{j}})}
+  }{
+  \sum_{j \in TopK_{i}}{Sim_{ij}}
+}+\overline{Q_{i}} $    
+        \STATE $mf= U_{i} \cdot S_{j}$
+        \STATE $Q_{ij}^{*}= \lambda_{un} \cdot cf + (1-\lambda_{un}) \cdot mf$
+    \ENDFOR
+\ENDFOR
+\RETURN $Q^{*}$
+
+\end{algorithmic}  
+\end{algorithm}  
