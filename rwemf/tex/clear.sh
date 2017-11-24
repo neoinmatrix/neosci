@@ -6,4 +6,4 @@ rm -rf *.log
 rm -rf *.synctex.gz
 rm -rf *.blg
 rm -rf *.bbl
-
+rm -rf *.soc

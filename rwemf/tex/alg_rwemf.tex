@@ -14,13 +14,13 @@
         \STATE break
     \ENDIF 
 \ENDFOR
-\STATE // calucate the similarity matrix 
+\STATE // calculate the similarity matrix 
 \FOR {$i = 0$ to m}
     \FOR {$j = 0$ to m}
         \STATE $Sim_{ij}=\frac{1}{1+\frac{1}{N_{ij}}\sum{(U_{i}-U_{j})^2}}$
     \ENDFOR
 \ENDFOR
-\STATE // calucate the transtion matrix 
+\STATE // calculate the transtion matrix 
 \FOR {$i = 0$ to m}
     \FOR {$j = 0$ to m}
         \STATE $M_{ij}=\frac{Sim_{ij}}{Sim_{i}}$
@@ -40,13 +40,13 @@
 \STATE // get the prediction by similarity matrix
 \FOR {$i = 0$ to m}
     \FOR {$j = 0$ to m}
-        \STATE $cf=\frac{
+        \STATE $v_{cf}=\frac{
   \sum_{j \in TopK_{i}}{Sim_{ij} \times (Q_{jk}-\overline{Q_{j}})}
   }{
   \sum_{j \in TopK_{i}}{Sim_{ij}}
 }+\overline{Q_{i}} $    
-        \STATE $mf= U_{i} \cdot S_{j}$
-        \STATE $Q_{ij}^{*}= \lambda_{un} \cdot cf + (1-\lambda_{un}) \cdot mf$
+        \STATE $v_{mf}= U_{i} \cdot S_{j}$
+        \STATE $Q_{ij}^{*}= \lambda_{un} \cdot v_{cf} + (1-\lambda_{un}) \cdot v_{mf}$
     \ENDFOR
 \ENDFOR
 \RETURN $Q^{*}$

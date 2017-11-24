@@ -5,3 +5,4 @@ del *.log
 del *.synctex.gz
 del *.blg
 del *.bbl
+del *.soc
