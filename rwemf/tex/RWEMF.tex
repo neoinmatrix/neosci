@@ -49,56 +49,53 @@
 \maketitle
 
 \begin{abstract}
-With the abundance of web service on the Internet, it is a challenge for the unexperienced designers to select the appropriate service. And QoS(Quality of Service) is important criterion to evaluate web service. The web service recommendation should predict the unobserved QoS of services, though the sparse QoS observed on the Internet. To address the problem, the collaborative filtering is a major approach to give the predictions. However the sparse data needs more appropriate model to enhance the accuracy of prediction. And the matrix factorization is the similar approach to solve the problem about accuracy. In this paper, we propose a new hybrid approach that combined the predictions from random-walk based and matrix factorization model. Comprehensive experiments on the QoS data set of real-world web service, that our approach achieves the more accurate predictions.
+With the abundance of web service on the Internet, it is a challenge for the unexperienced designers to select the appropriate service. In this scenario, Quality of Service(QoS) is an important criterion to evaluate web service. Through the sparse QoS observed on the Internet, the web service recommendation needs to give the prediction of unobserved QoS. To address this problem, collaborative filtering is a major approach to give the prediction. However, sparse data requires a more suitable model to improve the accuracy of the prediction. Matrix factorization is the similar solution to the problem of accuracy. In this paper, we propose a new hybrid approach that combined the random-walk and matrix factorization model for the prediction. Comprehensive experiments on the QoS dataset of real-world web service enable our method to achieve the more accurate prediction.
 \end{abstract}
 
 \begin{IEEEkeywords}
-  random-work, web service recommendation, matrix factorization
+  collaborative filtering, random-work, matrix factorization, hybrid approach
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
 
 %=========================================================================
 \section{Introduction}
-\par Overview the past few years, the collaborative filtering and matrix factorization have success in traditional fields of recommendation, such as Goods, Music, Movie and so on. The recommendation of web service was effected by the achievements. However, the scenario of web service is more complex that suffers from sparse data and incomplete related information. There are so many different web services distributing over heterogeneous network which contains several auto-systems. So the recommendation of web service should solve the problems that sparse QoS(Quality of Service) value collected from various with the untrusted information about location or network. In a word, more measures should be made to enhanced the limited information to achieve the more accuracy of web service recommendation\cite{zheng_wsrec:_2009}\cite{zheng_qos-aware_2011}. Only that, the system of web service can provide the more quality service.
-\par Web Service QoS predicted information enhanced technology is developing fast. For example, time-aware recommendation that makes prediction by history call record, location-aware recommendation\cite{liu_location-aware_2016}\cite{xia_domain-aware_2014}\cite{tang_location-aware_2012} that make use of numbers of AS(auto system), IP or GPS(Global Position System). But the measures all achieve improvement in accuracy of prediction in small scale of the sparse data. Although the information is critical to prediction, the experiments prove the factor that the more appropriate neighborhood ranking\cite{lo_efficient_2014} can really boost the accuracy of prediction. So the paper that Random Walk Models\cite{yin_network_2017}\cite{park_comparative_2017} can efficiently work in real-world dataset in the past few years. With the transition probability matrix which based on the principle of Markov random process\cite{mohammed_markov_2016}, the no directed connected users can calculate the similarity in neighborhood selection.
-\par In the field of web service recommendation, the random-walk model is efficient, but the accuracy of prediction needed more improvement. The matrix factorization\cite{yu_personalized_2014}\cite{ma_predicting_2015} had ever solved the sparse efficiently in similar scenario. Naturally, we will try combining the random-walk model with the matrix factorization to get the good performance. And the matrix factorization also is the best approach to reduction of dimensions, when we calculate the similarity between user and user, the time complexity will be smaller. With more high-efficiency model\cite{rodriguez-mier_hybrid_2017}, the hybrid algorithm improves the accuracy of prediction in final.
-\par  In summary, to solve the web service recommendation and to increase the accuracy of QoS prediction, in this paper, the contributions we made as following:
+\par In the past few years, collaborative filtering and matrix factorization have success in traditional fields of recommendation, such as Goods, Music, Movie and so on. The developments of web service prediction were also influenced by these achievements from fields of traditional recommendation. However, the scenario of web service that suffers from sparse data and incomplete related information is more complex. What is more, there are many different web services distributing over heterogeneous network which contains several auto-systems with unbalance information. Therefore, the recommendation of web service needs to give solutions to the problems that sparse QoS value collected from various places with the untrusted information about location or network. In a word, more measures should be made to enhanced the limited information to achieve the more accuracy of web service recommendation\cite{zheng_wsrec:_2009}\cite{zheng_qos-aware_2011}. Only in this way, the web service system can provide service with the more quality.
+\par Web services QoS prediction information enhancement technology is rapidly developing. For example, time-aware recommendation that makes prediction by history records, location-aware recommendation\cite{liu_location-aware_2016}\cite{xia_domain-aware_2014}\cite{tang_location-aware_2012} that uses information of AS(auto system), IP or GPS(Global Position System). Those approaches achieve less improvement of accuracy due to the unbalance information on sparse dataset. Although those information is critical to prediction, it conducts from the experimental observation that the more precise similarity and the more appropriate neighborhood ranking\cite{lo_efficient_2014} can improve the accuracy of prediction. So the paper that random-walk models\cite{yin_network_2017}\cite{park_comparative_2017} work efficiently in real-world dataset. With transition probability matrix and the principle of Markov random process\cite{mohammed_markov_2016}, no directed connected users get the accurate similarity on sparse dataset and better performance in neighborhood selection.
+\par The random-walk model is efficient in the field of web service recommendation, but the accuracy of model needs more improvement. Matrix factorization\cite{yu_personalized_2014}\cite{ma_predicting_2015} solved the sparse efficiently in similar scenario. Naturally, combining the random-walk model with matrix factorization is best choice to get the better performance. In addition, matrix factorization is also the best approach to reduction of dimensions. When we calculate the similarity between users with decomposed matrix, the time complexity is smaller than the calculation with whole matrix. With this high-efficiency model\cite{rodriguez-mier_hybrid_2017}, the hybrid algorithm improves the accuracy of prediction in final.
+\par  In summary, to solve the web service recommendation and to improve the accuracy of prediction, in this paper, the contributions we made as following:
 %=========================================================================
 \begin{itemize}
-\item We explore the sparse problem in known probability, and study the sparse dataset and statistic phenomenon in real-world through calculation.
+\item We improve the similarity calculation with the matrix factorization, and improve the random-walk precision with the new weighted parameter method.
 \item We propose the hybrid approach to combine the user-based collaborative filtering with matrix factorization.
-\item We conduct the experiments on real-world dataset, and achieve the best accuracy of QoS prediction.
+\item We conduct the experiments on real-world dataset, and achieve the best accuracy of prediction.
 \end{itemize}
 
 %=========================================================================
-\par The rest of this paper is organized as follows. Section \ref{S-RW} summarizes the related work and our thought about sparse dataset. Section \ref{S-HRWMF} introduces our approach to combine the CF and MF algorithm. Section \ref{S-EE} reports the experiments and analyst the result of approaches. Section \ref{S-CN} concludes the paper and discusses the future work. 
+\par The rest of this paper is organized as follows. Section \ref{S-RW} summarizes the related work and our thought about sparse dataset. Section \ref{S-HRWMF} introduces our approach to combine the CF and MF algorithm. Section \ref{S-EE} reports the experiments and analysts the result of approaches. Section \ref{S-CN} concludes the paper and discusses the future work. 
 
 %=========================================================================
 \section{Related Work}\label{S-RW}
-In this section, we will introduce the intuition of sparse density data, and explore the sparse problem in ideal environment that the sampling rate given in advance. Then the reviews of recommendation model will be displayed, including collaborative filtering, matrix factorization, and random-walk model.
+In this section, we will introduce the intuition of sparse density data, and explore the sparse problem in ideal environment. With the sparse sampling rate, it is difficult to improve accuracy of models. Then the recommendation model will be reviewed, including collaborative filtering, matrix factorization, and random-walk model.
 
 \subsection{Intuition of sparse density data}
-\par In the real-world dataset environment, our recommendation system samples the whole dataset with $d \%$ density. Suppose that the matrix $Q$ have m users, n services, and the $Q\in \textbf{R}^{m\times n}$. $q_{ij}$ means the QoS value of $user_{i}$ called $service_{j}$. 
-\par In our ideal sampling method that we suppose the sampled data following normal distribution. So the every user's sampling number of service is $n\times d \% $. Although the sampling method is ideal, the client user implements the sampling approach in the real environment easily. For example, with parameters $ m=300 , n=5000 , d\%=5\% $ , 300 users get about $ 300 \times 250 $ service QoS values from the dataset. We approximately calculate the expectation of number on the common invoked number of service. Firstly, we suppose the $user_i$ samples the 250 values in total, the $user_j (i \neq j)$ repeats the sampling process about 299 times. The model subordinates to the binomial distribution of $X \sim b(299,0.05)$, and we get the common invoked service number for $user_i$ by $Ex=14.95,D=14.20$. So the factor that samples with the sparse rate is hard to recover the data of whole. And the location-aware information improves the accuracy of collaborative filtering prediction merely, because the common invoked service scattering in different location area.
-
-% \subsection{The extreme rate of data mining }
-% \par \added{I do not know to express the subject that the }The extreme data mining rate maybe propose to solve our confusion that how the accuracy we can achieve by improve the recommended model. Maybe, we can use the statistic approaches to get the expectation about the extreme prediction. Finally, with the expectation we can improve our algorithm to achieve more accuracy efficiently.
-% \par And the expectation of number about common invoked service is also the major latent factors in matrix factorization process. And Section \ref{S-EE} will displayed the relationship between the best latent factors parameter and the matrix factorization accuracy.
+\par On the real-world web service dataset\cite{zheng_wsrec:_2009}, our system takes $d \%$ density to form the data. This formation constructs training matrix and test matrix with unbalance data. It supposes that the training matrix $Q$ has m users, n services, and the $Q\in \textbf{R}^{m\times n}$. And $q_{ij}$ means the QoS value between $user_{i}$ and $service_{j}$. 
+\par In ideal sampling method that we suppose the data follows normal distribution. Every user's sampled QoS is about $n\times d \% $. With parameters $ m=300 , n=5000 , d\%=5\% $ , 300 users get about $ 300 \times 250 $ QoS values from the dataset as the training data. To calculate the expectation of common invoked service number, we suppose the $user_i$ samples the 250 values in total, the $user_j (i \neq j)$ repeats the sampling process about 299 times. The model subordinates to the binomial distribution of $X \sim b(299,0.05)$, and we get the common invoked service number for $user_i$, $Ex=14.95,Dx=14.20$. 
+\par The statistics from the web service means every two users have only 15 common invoked service, and the whole numbers of service is 5000. As the result, the sparse training data is difficult to recover the information of whole. Objectively speaking, the location-aware\cite{liu_location-aware_2016}  information improves the accuracy of collaborative filtering prediction merely due to small common invoked service scattering in different location areas.
 
 \subsection{The approach to solve the sparse density}
-\par The sparse problem is always limited the recommendation, and also the hot topic study in recent years. The collaborative filtering is the simple model to give the efficient prediction. But with sparse data and large of empty value, the accuracy is hard to improve. The capital ideas including make use of the adherent information or enhance the connection between users. The front idea is limited by the discrete dataset. Another is efficient, when the connection enhanced by random walk graph. 
-\par The matrix factorization is also the efficient approach through the low-rank matrix recovery\cite{choi_statistical_2015}\cite{agarwal_stochastic_2014}. Although there are many MF-based approaches\cite{zhou_qos-aware_2015}\cite{tran_low-rank_2016} proposed in recent years, the main goal is to overcome the cold start problem\cite{ongie_fast_2017} and get the more precise predictions. In the service-recommendation, the combination of CF and MF model\cite{koren_matrix_2009} will achieve the more accuracy.      
+\par The sparse problem always limits the accuracy of recommendation, but  also a hot topic in recent study. Collaborative filtering is the simple model to give the precise prediction. But with sparse data and large of empty value, it is hard to improve the accuracy. The capital approaches that make use of the adherent information or enhance the connection between users. The front idea bases on location-aware model is limited by the unbalance users' information. Another idea is efficient due to the connection enhanced by random-walk model. 
+\par Matrix factorization is also the efficient approach through the low-rank matrix recovery\cite{choi_statistical_2015}\cite{agarwal_stochastic_2014}. Although there are many MF-based approaches\cite{zhou_qos-aware_2015}\cite{tran_low-rank_2016} proposed in recent years, the main target is still to overcome the cold start problem\cite{ongie_fast_2017} and get the more precise prediction. In web service recommendation, the combination of CF and MF model\cite{koren_matrix_2009} may achieve the more accuracy.      
 
 \subsection{User-based Collaborative Filtering}
-The CF(Collaborative Filtering)-based algorithm have been widely used. The CF mines a user's common invoked services, which is identified by response-time or throughput, by calculation of similarity (the Euclidean distance) between the $user_i$ and $user_j$. There is a defect that the two users have no common invoked service, the distance will be zero, we identity the smaller value means the more similarity between two users, so the condition should be excluded in algorithm. 
+Generally speaking, collaborative filtering based algorithm have been widely used. The CF gives prediction with the common invoked services which are identified by response-time and throughput. By calculating the similarity (the Euclidean distance) between the $user_i$ and $user_j$, it is easy to construct similarity matrix. However, there is a defect that the two users have no common invoked service, the distance will be zero. It identities that the smaller value means the more similar users, so the condition should be considered in the algorithm. 
 \begin{equation}
 sim(i,j)=\frac{1}{
   1+\frac{1}{N_{ij}}\sqrt{\sum_{k \in S_{ij}}{(q_{ik}-q_{jk}})^{2}}
 }  \label{eq2}
 \end{equation}
-where the number 1 in the denominator is a way of Laplacian smooth to avoid the denominator being 0, and the $S_{ij}$ and $N_{ij}$ means the common service called users and numbers respectively. It can conclude that the pair of users with the smaller distance is calculated the value more near to number 1. In the reversed condition, the value will be number 0.
-\par With the similarity calculated by front step. We can construct the similarity matrix $Sim \in \textbf{R}^{m\times m}$, the $Sim_{ij}$ means the similarity between $user_{i}$ and $user_{j}$. Then, we ranking the neighbors by value of matrix, and choose the topK users to predict the QoS value with the Equation:
+where the number 1 in the denominator is a way of Laplacian smooth to avoid the denominator being 0, and the $S_{ij}$ and $N_{ij}$ means the common service invoked users and numbers respectively. It concludes that the pair of users with the smaller distance will get the value is closer to number 1. In the reversed condition, the value will be number 0.
+\par With the similarity calculated by front step, it forms the similarity matrix $Sim \in \textbf{R}^{m\times m}$, the $Sim_{ij}$ means the similarity between $user_{i}$ and $user_{j}$. Then, the algorithm ranked the neighbors by value of similarity matrix, and chose the topK users to predict the QoS value with the Equation:
 \begin{equation}
 q^{'}_{ik}=\frac{
   \sum_{j \in TopK_{i}}{Sim_{ij} \times (Q_{jk}-\overline{Q_{j}})}
@@ -107,14 +104,14 @@ q^{'}_{ik}=\frac{
 }+\overline{Q_{i}} 
 \label{eq3}
 \end{equation}
-where $\overline{Q_{j}}$ means the average value of $user_{j}$, the Equation (\ref{eq3}) also considers the different user has different baseline of QoS prediction. 
-\par The topK neighbors selection approach is not always smart. Sometimes the number of service is large with the small value, the calculation time will be wasted. If the approach gets the similarity with low-dimension value with low noise that can save the calculation time in large scale data.
+where $\overline{Q_{j}}$ means the average QoS value of $user_{j}$. So the Equation (\ref{eq3}) also considers the different user has different baseline of QoS value prediction. 
+\par The calculation of similarity in collaborative filtering approach is not always efficient. Sometimes the number of service is large and the QoS value is empty frequently, the computation time will be wasted. If the approach gets the similarity with low-dimension vector, and the approach filters low noise QoS value, it can save the computation time in large scale dataset.
 
 \subsection{Matrix Factorization}
-The MF(Matrix Factorization) has also been chosen for its accuracy. By factorizing the matrix $Q\in \textbf{R}^{m \times n} $ into user and service latent matrix $U\in \textbf{R}^{m \times k}$, $S \in \textbf{R}^{n \times k}$. 
+Matrix factorization(MF) is also chosen commonly for its accuracy on large dataset. It factors the matrix $Q\in \textbf{R}^{m \times n} $ into user and service latent matrix $U\in \textbf{R}^{m \times k}$, $S \in \textbf{R}^{n \times k}$. 
 \begin{equation}
 \begin{aligned}
-\mathop{\arg\min}_{U,S} \sum_{i=1}^{m}{\sum_{j=1}^{n}{
+\mathop{argmin}_{U,S} \sum_{i=1}^{m}{\sum_{j=1}^{n}{
 (Q_{ij}-U_{i} \cdot S_{j}^{T}})^{2}
 }
  + \lambda_{U} \cdot \sum_{i=1}^{m}\|U_{i}\|_{F}^{2} \\
@@ -122,34 +119,27 @@ The MF(Matrix Factorization) has also been chosen for its accuracy. By factorizi
 \label{eq4}
 \end{aligned}
 \end{equation}
-The Equation (\ref{eq4}) is used to minimize the loss of Equation, and the $\| \cdot \|_{F}$ denotes the Frobenius norm\cite{chen_user_2016} to penalize the norms of U and S. Then we can use the gradient descent algorithm with several iterations, and find appropriate matrix U and S at last. Finally, the QoS value will be predicted by the inner product of $U_{i} \cdot S_{j}$. 
-\par However, the matrix factorization is independent process, the latent matrix $U \in \textbf{R}^{m \times k}$ can be used as dimension reduction matrix of origin matrix $Q \in \textbf{R}^{m \times n}$, the dimension reduces from n to k. To some degree, the condition that user is with sparse records will be alleviated, and the the data in large scale will be dealt efficiently in short time, and the calculation will be saved.
+The Equation (\ref{eq4}) is used to minimize the loss between $Q$ and 
+$U_{i} \cdot S_{j}^{T}$, and the $\| \cdot \|_{F}$ denotes the Frobenius norm\cite{chen_user_2016} to penalize the norms of U and S. Then it uses the gradient descent algorithm by several iterations, and finds appropriate matrix U and S at last. Finally, the QoS value will be predicted by the inner product of $U_{i} \cdot S_{j}$. 
+\par However, matrix factorization is independent process, the user latent matrix $U \in \textbf{R}^{m \times k}$ can be used as dimension reduction matrix of origin matrix $Q \in \textbf{R}^{m \times n}$, the dimension reduces from n to k. To some degree, the sparse problem that user's sampled records is less will be alleviated, and the data with large number of service will be dealt efficiently in short time. It is clearly that the computation will be saved.
 
 \subsection{Random-Walk model}
-% \par In the last two Subsection, we get the matrix $Sim \in \textbf{R}^{m \times m}$, the $Sim_{ij}$ means the similarity between $user_{i}$ and $user_{j}$ by one step. As we all known, if $user_{i}$ and $user_{j}$ are no direct connection with one step,
-% the $user_{i}$ is similar to $user_{k}$ with similarity $Sim_{ik}$, and the $user_{j}$ is similar to $user_{k}$ with similarity $Sim_{jk}$, then we can achieve the similarity between  $user_{j}$ is similar to $user_{k}$ by two step. 
-\par The random-walk model\cite{yin_network_2017} is used to enhanced the similarity between users ,and to get more appropriate neighbors ranking with the transition matrix. In the random-walk model, the algorithm builds the graph $G(V_{U},Sim)$ and use the Markov chain to model the state transition of random walk. Let $U_{0} \in V_{U}$ and the $Sim_{0,k}$ means the similarity between $user_{0}$ and the others. The transition matrix M can calculated by user's similarity. And one step goes by following equation.
-% \begin{equation}
-% P(X_{t}=j|X_{0}=i)=\left\{\begin{array}{ll}
-% \alpha ^{t} \cdot M^{t-1} \cdot Sim_{i}^{T}&i \neq j,\\
-% \alpha ^{t} \cdot M^{t-1} \cdot Sim_{i}^{T} + 1-\alpha &i = j.
-% \end{array}\right.
-% \end{equation}
-% The t steps random walking is 
+\par The random-walk model\cite{yin_network_2017} is used to enhanced the similarity between users. And it gets more appropriate ranking of neighbors with the transition matrix. In the random-walk model, it builds the graph $G(V_{U},Sim)$ and uses the Markov chain to model the state transition of random-walk. Let $U_{0} \in V_{U}$ and the $Sim_{0,k}$ means the similarity between $user_{0}$ and the others. The transition matrix M is calculated by user's similarity. And one step goes by following equation.
 \begin{equation}
 P_{t}=(1-\alpha)P_{0}+ \alpha M^{T}P_{t-1} 
 \label{eqrw}
 \end{equation}
-where $\alpha$ means the probability that similarity of user transfers to others, and M means the initial transition matrix with probabilistic value. And the $P_{0}$ is always initialized by identity matrix which means the user only cares its own similarity with others with probability 1. Along with the step t being infinite, the probability will converge to be stable, which is decided by the steady state distribution of the Markov chain. 
+where $\alpha$ means the probability that similarity of user transfers to others, and $1-\alpha$ means the probability that similarity of user transfers to itself. And the $P_{0}$ is always initialized by identity matrix which means the user only cares its own similarity with probability 1 in initial state. Along with the step t being infinite, the probability will converge to be stable, which is decided by the steady state distribution of the Markov chain. 
 \begin{equation}
 P^{*}=(1-\alpha)(I-\alpha M^{T})^{-1}P_{0}
 \label{eqrwfinal}
 \end{equation} 
 When the probability is stable, then the $P_{t}$ will equal to $P_{t-1}$, then the Equation \ref{eqrw} can be further transformed into Equation \ref{eqrwfinal} shape by linear algebra calculation. 
-\par Although the Equation \ref{eqrwfinal} help to enhanced the similarity between users, the collaborative filtering based algorithm can not get more accuracy on the web service dataset with large number of empty value. So the hybrid approach will be the best choice to get more accuracy.
+\par Although the Equation \ref{eqrwfinal} helps to enhanced the similarity between users, collaborative filtering based algorithm is still not getting more accuracy on the web service dataset with large number of empty value. So the hybrid approach will be the best choice to get more accuracy.
+
 %=========================================================================
 \section{Hybrid approach with RW and MF}\label{S-HRWMF}
-\par At first, the matrix Q decomposes into U and S with latent dimension k with the Equation
+\par At first, the matrix Q decomposes into U and S with latent dimension k with the Equation (\ref{eq5}) (\ref{eq6})
 \begin{equation}
 {\frac{dloss}{dU_{i}}={\sum_{j=1}^{n}{
 (Q_{ij}-U_{i} \cdot S_{j}^{T}}) \cdot S_{j}
@@ -165,29 +155,31 @@ When the probability is stable, then the $P_{t}$ will equal to $P_{t-1}$, then t
 + \lambda_{S} \cdot \|S_{j}\|
 \label{eq6}
 \end{equation}
-after maximum iteration, the matrix U and S will be achieved. And the similarity matrix Sim will be calculated by 
+where the equation will be solved by the gradient descent algorithm.
+After maximum iteration, the matrix U and S will be achieved. The similarity matrix Sim calculated by 
 \begin{equation}
-Sim_{ij}=\frac{1}{k} \cdot  \sum_{K}U_{ik} \cdot U_{jk}
+Sim_{ij}=\frac{1}{k} \cdot \sum_{k}^{K}U_{ik} \cdot U_{jk}
 \end{equation}
-where K is the latent dimension of matrix U. With the low dimension matrix, the calculation time of similarity matrix Sim will be saved efficiently in large number of data.
-\par With the similarity matrix above, the probabilistic matrix P achieved by extended Equation:
+where K is the latent dimension of matrix $U$. With the low dimension user latent matrix $U$, the computation time of similarity matrix Sim will be saved efficiently.
+\par With the similarity matrix above, the probabilistic matrix P achieved by extended Equation (\ref{eq_extend_as})
 \begin{equation}
 P_{i,j}=\frac{A_{ij} \times Sim_{ij}}{\sum_{k \in Adj_{i}}{A_{ik} \times Sim_{ik}}}
+\label{eq_extend_as}
 \end{equation}
-where the $A_{ij}$ parameter refers to the location dataset. With the information of $user_{i}$ and $user_{j}$ whether is in the same areas, including auto system area, country area and no direct connection area, the $A_{ij}$ is set to 3,2,1 respectively. The initial probability calculates precisely.
-\par Through the Equation (\ref{eqrwfinal}) given above, and the value of identity matrix $P_{0}$ and P, the final steady transition matrix $P^{*}$ will be calculated. The $P^{*}_{ij}$ means the similar probability between $user_{i}$ and $user_{j}$. And the enhanced weight that the parameter $\varphi_{i}$ can be easily calculated through Equation (\ref{eq_weight}).
+where the parameter $A_{ij}$ refers to the location information. With the information of $user_{i}$ and $user_{j}$ whether are in the same areas, including auto system area, country area and no direct connection area, the $A_{ij}$ is set to 3,2,1 respectively. With the improvement of probabilistic weight, the result will be calculated precisely.
+\par Through the Equation (\ref{eqrwfinal}), identity matrix $P_{0}$ and P, the final steady probability transition matrix $P^{*}$ will be calculated. The $P^{*}_{ij}$ means the similar probability between $user_{i}$ and $user_{j}$. And the enhanced weight that the parameter $\varphi_{i}$ can be easily calculated through Equation (\ref{eq_weight}).
 \begin{equation}
 \varphi_{i}=\frac{1}{N(j)} \cdot \sum_{j \in S_{ij}}{\frac{Sim_{ij}}{P^{*}_{ij}}}
 \label{eq_weight}
 \end{equation}
-\par At the end of random-walk stage, the Equation (\ref{eqsime}) calculates the revised similarity which affects the topK nearest neighbors selected\cite{hadad_tqos:_2010} eventually. 
+\par At the end of random-walk stage, the Equation (\ref{eqsime}) calculates the revised similarity which affects result of the topK nearest neighborhood selection\cite{hadad_tqos:_2010} eventually. 
 \begin{equation}\label{eqsime} 
 Sim_{ij}^{*}=\frac
 {
 \varphi_{i} \times P^{*}_{ij} + \varphi_{j} \times P^{*}_{ji}
 }{2}
 \end{equation}
-\par With the new similarity matrix $Sim^{*}$ value, the top K nearest neighbors will be selected. The random-walk based similarity enhancement is over. And with the more accuracy similarity, the hybrid approach is important to give final prediction.
+\par With the enhanced similarity matrix $Sim^{*}$, the top K nearest neighbors will be selected. After random-walk based similarity enhancement, collaborative filtering algorithm gets the more accurate prediction. With the more accuracy result, the hybrid approach is important to give final prediction.
 \begin{equation}
 \begin{aligned}
 q_{ij}^{*}= \lambda \cdot (
@@ -199,7 +191,7 @@ q_{ij}^{*}= \lambda \cdot (
 \label{final}
 \end{aligned}
 \end{equation}
-\par The final QoS prediction will be calculated by Equation (\ref{final}). With the parameter $\lambda$, the predictions can adjust to different scenarios. The combination of CF and MF is the key to get more accuracy. The algorithm should consider the $user_{j}$'s personal QoS value, the appropriate ranking neighbors whose QoS value is empty, and the prediction from MF. The CF algorithm in sparse data will be more low than the real QoS value, and the MF algorithm will be more low high that the real QoS value with the regularizations. The over-fitting or under-fitting and changed by hybrid algorithm. In final, the RWEMF(a hybrid random-walk based web service recommendation enhanced by matrix factorization) should be described. The details of algorithm is in Algorithm (\ref{alg_RWEMF})(\ref{alg_RWE}). And the code of algorithm could been found in WebSite \footnote{github.com/neoinmatrix/neosci/tree/master/rwemf}.
+\par The final QoS prediction will be calculated by Equation (\ref{final}). With the parameter $\lambda$, the predictions can adjust to different scenarios. The combination of CF and MF is the key to get more accuracy. The algorithm considers the user's personal QoS value, the neighbors with empty QoS, and the MF's prediction. The prediction from CF algorithm is lower than the real QoS value commonly, and the prediction from MF algorithm is higher due to the regularization items in MF. The over-fitting or under-fitting prediction are coordinated by hybrid algorithm. In final, the a hybrid random-walk based web service recommendation enhanced by matrix factorization(RWEMF) should be proposed. The details of algorithm is in Algorithm (\ref{alg_RWEMF})(\ref{alg_RWE}). And the code of algorithm could been found in WebSite \footnote{github.com/neoinmatrix/neosci/tree/master/rwemf}.
 \begin{algorithm}  
 \caption{RWEMF}  
 \label{alg_RWEMF}  
@@ -233,7 +225,7 @@ q_{ij}^{*}= \lambda \cdot (
 \end{algorithmic}  
 \end{algorithm}  
 % ====================================================
-\par The time complexity of RWEMF is inherited from CF and MF. The time complexity of CF is from O($m \times n \times n$) to O($m \times n \times K$), the K is the latent dimension of matrix U. When the n is large and the K is small, the time will be saved in large dataset. The time complexity of MF is from O($m \times n \times k$), the max\_iter(maximum iteration) and $d \%$(the density of dataset) are the influenced elements. In summary, the RWEMF algorithm could not add the extra time complexity, although is large than the sum of RWECF and MF, according to the sparse condition, with the user-based collaborative filtering, the running time\cite{wang_collaborative_2015} is in acceptable scale even on the large web service dataset.
+\par The time complexity of RWEMF is inherited from CF and MF. With the algorithm RWEMF, the time complexity of CF is from O($m \times n \times n$) to O($m \times n \times K$), where the K is the latent dimension of matrix U. When the n is large and the K is small, the time will be saved in large dataset. Besides, the time complexity of MF is O($m \times n \times l$), where l is the influenced by the max\_iter(maximum iteration) and $d \%$(the density of dataset). In summary, the RWEMF algorithm adds no extra time complexity in those web service dataset. Although its time complexity is large than the sum of CF and MF, the running time\cite{wang_collaborative_2015} is still in acceptable scale even on the large web service dataset.
 
 \begin{algorithm}  
 \caption{RWE\_U}  
@@ -269,7 +261,7 @@ q_{ij}^{*}= \lambda \cdot (
 %=========================================================================
 \section{Experiment and Evaluation}\label{S-EE}
 \subsection{Dataset and Description}
-The dataset is from WS-DREAM \footnote{github.com/wsdream/wsdream-dataset}. The whole dataset includes two attribute sub-dataset: response time(RT) and throughput(TP). The statistics of dataset are shown in Table \ref{tb1}. The dataset reflects the real-world condition that we have few clients to observe the QoS value and there are so many service on the Internet. 
+The dataset is from WS-DREAM \footnote{github.com/wsdream/wsdream-dataset}. The whole dataset includes two sub-dataset: response time(RT) and throughput(TP). The statistics of dataset are shown in Table \ref{tb1}. The dataset reflects the real-world condition that we have few user-clients to observe the QoS value and there are so many service on the Internet. 
 % table=============================================
 \begin{table}[H]
 \begin{threeparttable}
@@ -287,7 +279,7 @@ TP(kbps) & 339   & 5825  & 0.004 & 1000  & 47.5617 & 110.7971  \\
 \end{threeparttable}
 \end{table}
 
-\par The information about the location of users and services can get in Table \ref{tb2}. The row of ``user\_as'' means there are 339 users in the dataset. And the 339 users are distributing in 136 areas. Every area has at least 1 user and no more than 31 users. And the average of users on one area about 2.4745 with 2.8338 standard deviation. Notice that the postfix ``\_as" and ``\_ct" means area is as(auto system) and ct(country) respectively. From the statistic information about data, the fact that users or services distribute in different area are extremely unbalanced. The location dataset provides inefficiency information, that is why the location information is hardly enhanced the accuracy of our experiments.
+\par The information about the location of users and services displays in Table \ref{tb2}. The row of ``user\_as'' means there are 339 users in the dataset. And the 339 users are distributing in 136 areas. Every area has at least 1 user and no more than 31 users. And the average number of users on one area about 2.4745 with 2.8338 standard deviation. Notice that the postfix ``\_as" and ``\_ct" means area is as(auto system) and ct(country) respectively. From the statistic information about data, the fact that users or services distribute in different area are extremely unbalance. The dataset of location provides inefficiency information, that is why the location information is difficult to enhance the accuracy of experiments.
 
 % table=============================================
 \begin{table}[H]
@@ -311,7 +303,7 @@ service\_ct & 5825  & 73    & 1     & 2395  & 78.7162 & 285.9846 \\
 \end{table}
 
 \subsection{Evaluation Metric and Parameter}
-The MAE(Mean Absolute Error) and NMAE(Normalized Mean Absolute Error) may be the common measurable metrics. MAE is defined as 
+The MAE(Mean Absolute Error) and NMAE(Normalized Mean Absolute Error) are the common measurable metrics. MAE is defined as 
 \begin{equation}
 MAE=\frac{1}{N}\sum_{i,j}{|q_{ij}-q^{\hat{}}_{ij}|}
 \end{equation}
@@ -319,19 +311,20 @@ The NMAE is computed as the MAE normalized by the mean of all values, which is d
 \begin{equation}
 NMAE=\frac{MAE}{\frac{1}{N}\sum_{i,j}{|q_{ij}}|}
 \end{equation}
-The MAE reflects the absolute error of the predictions. The NMAE reflects the relative error of the predictions. We can compare the ability of predictions from different dataset with NMAE relatively.
+The MAE reflects the absolute error of the predictions. The NMAE reflects the relative error of the predictions. We can compare the ability of predictions from different dataset by NMAE relatively.
 
 \subsection{Result Accuracy and Comparison}
 \par There are several classical recommendation algorithms in the experiments as the comparisons. The result of response time and throughput
  are displayed in Table \ref{tb_rt} and Table \ref{tb_tp} respectively.
 \par The comparisons including
 \begin{itemize}
-\item UPCC is the user-based collaborative filtering algorithm that calculate the similarity between users with Pearson correlation coefficient. In this case of small number of users, the algorithm is fast with short running time. 
-\item IPCC is the user-based collaborative filtering algorithm that calculate the similarity between users with Pearson correlation coefficient. In this case of large number of services, the algorithm is slow with long running time. 
+\item UPCC is the user-based collaborative filtering algorithm that calculates the similarity between users with Pearson correlation coefficient. In this case of small number of users, the algorithm is fast with short running time. 
+\item IPCC is the item-based collaborative filtering algorithm that calculates the similarity between users with Pearson correlation coefficient. In this case of large number of services, the algorithm is slow with long running time. 
 \item UIPCC is the hybrid method linearly combines the results of UPCC and IPCC, but the accuracy is more precise than that two. With the running time of total two algorithm, the algorithm is also slow.
-\item PMF is the matrix factorization\cite{r_salakhutdinov__a_mnih_probability_2007}  algorithm with the model of probability. In this case with sparse data, the process is fast to be convergent to stable state. So the maximum iteration and convergent threshold are significant to keep the running time within acceptable range.
-\item UL\_RWE is user-based random walk model enhanced by the matrix factorization. The reduced-dimension matrix U with k dimensions latent elements, the algorithm is more fast and achieve more accuracy.
-\item RWEMF is our approach which are more efficient in the experiment. In the base of UL\_RWE, the approach successfully combined the matrix factorization prediction. The running time is close to matrix factorization to achieve more accuracy.
+\item PMF is matrix factorization\cite{r_salakhutdinov__a_mnih_probability_2007} algorithm with the model of probability. In this case, the process is fast to be convergent to stable state. So the maximum iteration and convergent threshold are significant to keep the running time within acceptable range.
+\item RWE is user-based random walk model enhanced by matrix factorization. The reduced-dimension matrix U with k dimensions latent elements, the algorithm is more fast and achieves more accuracy.
+\item XEMF is matrix factorization based algorithm. The parameters of XEMF is set to fit the sparse dataset specially. The user latent matrix is also used for RWE and RWEMF.
+\item RWEMF is our approach which is more efficient in the experiment. In the base of RWE, the approach successfully combined the prediction from matrix factorization. And its running time is close to matrix factorization.
 \end{itemize}
 
 \begin{table}[H]
@@ -354,7 +347,7 @@ UIPCC & MAE  & 0.6045 & 0.5336 & 0.4879 & 0.4601 \\
 PMF & MAE  & 0.5704 & 0.4894 & 0.4584 & 0.4390 \\
          & NMAE & 0.6292 & 0.5391 & 0.5050 & 0.4837 \\
 \hline
-UL-RWE & MAE  & 0.5255 & 0.4735 & 0.4462 & 0.4291 \\
+RWE & MAE  & 0.5255 & 0.4735 & 0.4462 & 0.4291 \\
          & NMAE & 0.5797 & 0.5216 & 0.4916 & 0.4727 \\
 \hline
 XEMF & MAE  & 0.5518 & 0.4891 & 0.4756 & 0.4877 \\
@@ -387,7 +380,7 @@ UIPCC & MAE & 26.0401 & 21.9952 & 20.0911 & 18.6256 \\
 PMF & MAE & 22.5499 & 17.9761 & 16.5358 & 15.0594 \\
    & NMAE & 0.4748 & 0.3782 & 0.3478 & 0.3168 \\
 \hline
-UL-RWE & MAE & 19.4043 & 15.6509 & 14.3058 & 13.5797 \\
+RWE & MAE & 19.4043 & 15.6509 & 14.3058 & 13.5797 \\
    & NMAE & 0.4085 & 0.3293 & 0.3009 & 0.2857 \\
 \hline
 XEMF & MAE & 21.0512 & 17.2567 & 15.9693 & 15.5798 \\
@@ -402,16 +395,16 @@ RWEMF & MAE & 18.5121 & 15.1752 & 13.9855 & 13.3388 \\
 \par Form the experimental results are shown in Table \ref{tb_rt} \ref{tb_tp}, we have some observations. 
 
 \begin{itemize}
-\item The matrix factorization algorithm(PMF) achieved more accuracy than the user-based or item-based without enhanced algorithm(UPCC,IPCC,UIPCC). 
-\item The algorithm (HL-RWE) enhanced by random-walk model is achieve more accuracy than the similarity calculated based collaborative filtering algorithm(UPCC,IPCC,UIPCC). So the precision similarity calculation and the appropriate and ranking neighbors selected are the efficient approaches to improve the accuracy.
-\item The RWEMF algorithm is more efficient than other algorithms and achieves the best accuracy. The sparse density of 5\% is more appropriate for the algorithm to have accuracy that the dense density of 20\%.
-\item In the different sub-dataset, the algorithms achieve different performance. The response-time dataset with value range (0.001-19.999) and standard deviation 1.9727 is with fluctuation about 9.86\%. The throughput dataset with value range (0.004-1000) and standard deviation 110.797 is with fluctuation about 11.08\%. The RWEMF achieves $\frac{0.6794-0.5591}{0.6794}=0.1771$ in rt dataset and $\frac{0.5643-0.3898}{0.5643}=0.3092$ in tp dataset. So the sparse density and the fluctuation in the dataset is the important elements to the RWEMF algorithm.
+\item The matrix factorization based algorithm PMF achieves more accuracy than the user-based or item-based without enhancements algorithms(UPCC,IPCC,UIPCC). 
+\item The algorithm (HL-RWE) enhanced by random-walk model achieves more accuracy than the similarity based collaborative filtering algorithms(UPCC,IPCC,UIPCC). So the precision similarity calculation and the appropriate and ranking neighbors selected are the efficient approaches to improve the accuracy.
+\item The RWEMF algorithm is more efficient than other algorithms and achieves the best accuracy. The sparse density of 5\% is more appropriate for the algorithm to have better performance than that the dense density is 20\%.
+\item In the different sub-dataset, the algorithms achieve different performance. The response-time dataset with value range (0.001-19.999) and standard deviation 1.9727 is with fluctuation about 9.86\%. The throughput dataset with value range (0.004-1000) and standard deviation 110.797 is with fluctuation about 11.08\%. The RWEMF achieves $\frac{0.6794-0.5591}{0.6794}=0.1771$ in rt dataset and $\frac{0.5643-0.3898}{0.5643}=0.3092$ in tp dataset. So the sparse density and the fluctuation in the dataset is the important elements to the accuracy of RWEMF.
 \end{itemize}
 
 \subsection{Analysis and Deduction}
-\par The significant parameters in RWEMF are top K, latent dimensions, the rate of MF union. 
+\par The significant parameters in RWEMF are top K, the latent dimension of MF, the rate of RW and MF union. 
 
-\par From the Figure \ref{fig_rt} \ref{fig_tp}, the number of nearby neighbors selected obviously effects the accuracy. Although the accuracy tendency is different in different dataset, the appropriate number of nearby neighbors selected decided the best accuracy in different sparse density. When topK=3, the RWEMF achieves the best accuracy in both response-time and throughput dataset. 
+\par From the Figure \ref{fig_rt},\ref{fig_tp}, the number of nearby neighbors selected obviously effects the accuracy. Although the accuracy tendencies are different in different dataset, the appropriate number of nearby neighbors selected decided the best accuracy in different sparse density. When topK=3, the RWEMF achieves the best accuracy in both response-time and throughput dataset. 
 
 \begin{figure}[H]  
 \centering  
@@ -423,13 +416,27 @@ RWEMF & MAE & 18.5121 & 15.1752 & 13.9855 & 13.3388 \\
 \begin{figure}[H] 
 \centering  
 \includegraphics[width=0.45\paperwidth]{topk_tp.eps}  
-\caption{the MAE of different topK of RWEMF on the throughput dataset }  
+\caption{the MAE of different topK of RWEMF on the throughput dataset }
 \label{fig_tp}  
 \end{figure} 
 
+\par From the Figure \ref{fig_timae_rt},\ref{fig_timae_tp}, the y-axis on the left shows the running time of the algorithm and the y-axis on the right shows the MAE accuracy of the algorithm. The x-axis represents the latent dimensions in RWEMF. It is clear that different sampling density and the latent dimensions affects the running time. With the two parameters increasing, the running time of the algorithm also increases gradually. At the same time, the MAE accuracy of the algorithm is changing under different latent dimensions. The efficient running of the algorithm requires selecting the appropriate latent dimensions to achieve a balance between computing time and accuracy of prediction. For example, when ldmf = 15, the algorithm runs faster relatively and has higher prediction accuracy.
 
+\begin{figure}[H] 
+\centering  
+\includegraphics[width=0.45\paperwidth]{timae_rt.eps}  
+\caption{the running time and MAE of different dimension on the response-time dataset }  
+\label{fig_timae_rt}  
+\end{figure} 
 
-\par From the Figure \ref{fig_rumf_rt} \ref{fig_rumf_tp}, the rumf parameter is the rate united the MF. In the experiments, we choose the 5\% and 20\% density. And every rate of density has three lines including the rwe line , MF line and rwemf line. It is clearly to know, the MAE of MF is largest in three, the MAE of rwe is smaller than MF's, with the 0.7 of rumf, the rwemf reaches the best accuracy of MAE. The phenomenon in the throughput dataset is similar. But the response-time dataset with small value is more sensitive to the rate, and it reaches the best accuracy in short range. 
+\begin{figure}[H] 
+\centering  
+\includegraphics[width=0.45\paperwidth]{timae_tp.eps}  
+\caption{the running time and MAE of different dimension on the throughput dataset }
+\label{fig_timae_tp}  
+\end{figure} 
+
+\par From the Figure \ref{fig_rumf_rt},\ref{fig_rumf_tp}, the $\lambda_{rumf}$ parameter is the rate united the MF. In the experiments, we choose the 5\% and 20\% density. And every rate of density has three type lines (including the RWE, XEMF and RWEMF line). It is clearly to see, the MAE of XEMF is the largest in three, the MAE of RWE is smaller than MF's. With the 0.7 of $\lambda_{rumf}$, the RWEMF reaches the best accuracy of MAE. The phenomenon is the same in the throughput dataset. But the response-time dataset with small value is more sensitive to the rate, and it reaches the best accuracy in short range. 
 
 
 \begin{figure}[H] 
@@ -442,11 +449,11 @@ RWEMF & MAE & 18.5121 & 15.1752 & 13.9855 & 13.3388 \\
 \begin{figure}[H] 
 \centering  
 \includegraphics[width=0.45\paperwidth]{rumf_tp.eps}  
-\caption{the MAE of different rate union MF  on the throughput dataset }  
+\caption{the MAE of different rate union MF  on the throughput dataset }
 \label{fig_rumf_tp}  
 \end{figure} 
 
-\par Every point in Figure \ref{fig_ae_rt} \ref{fig_ae_tp} means the prediction of RWEMF,RWE,MF three algorithm minus the real QoS value of dataset, and the points in view are sampling randomly that on behalf of the whole predictions. It is easy to see the AE(Absolute Error) of RWEMF is locating in the middle between RWE's and MF's. Sometimes, the RWE can get the accuracy, but it also processes with the big variance. And the ME can not get the accuracy, but it also runs steadily with the small variance. And the predictions of algorithms are sensitive to value of dataset. The absolute error in throughput dataset fluctuated in large range compared to response-time dataset's.
+\par Every point in Figure \ref{fig_ae_rt},\ref{fig_ae_tp} means the prediction of three algorithm(RWEMF,RWE,MF) minus the real QoS value of dataset, and the points in view are sampled randomly that on behalf of the whole predictions. It is easy to see the AE(Absolute Error) reflects the accuracy of points. And the points of RWEMF are locating in the middle between RWE and MF. Sometimes the RWE gets the more accuracy, but it also undergoes with the big variance. And the MF can not get the more accuracy, but it also runs steadily with the small variance. And the predictions of algorithms are sensitive to value of dataset. The AE in throughput dataset fluctuated in large range compared to response-time dataset.
 
 \begin{figure}[H] 
 \centering  
@@ -464,8 +471,8 @@ RWEMF & MAE & 18.5121 & 15.1752 & 13.9855 & 13.3388 \\
 
 %=========================================================================
 \section{Conclusion}\label{S-CN}
-\par We propose the RWEMF a hybrid approach to best accuracy in QoS real-world web service dataset. Firstly, We explore the sparse density dataset through statistic calculation. Clearly, the similar calculation and the nearby neighbors selection are significant. And the combination of random-walk user-based collaborative filtering and matrix factorization algorithm is described in the papers. The experiments of RWEMF prove our algorithm is most efficient and the best parameters chosen made RWEMF achieved the best accuracy in this QoS dataset.
-\par In the future, with the best accuracy in this dataset, the RWEMF can be extended by more efficient model. The short running time and exquisite mind can help the algorithm using in real-world web service recommendation easily. The parameters for the hybrid model need more exploration and more study to keep the algorithm more efficient.Although the adherent users's and service's information improve the accuracy finitely, there are more latent information\cite{liu_incorporating_2015}  value should be mined in the dataset. The MAE in 5\% on response-time dataset is 0.5068 now, Although the value is relative, sometime it could be metrics to measure the ability of algorithm in sparse dataset. Further, the MAE could be lower that 0.5000 by the new hybrid model.
+\par We propose RWEMF a hybrid approach to achieve best accuracy of prediction in QoS real-world web service dataset. Firstly, We recognize sparse dataset through statistics information. Clearly, the similar calculation and the nearby neighborhood selection are significant. And the combination of random-walk based collaborative filtering and matrix factorization algorithm are described in this paper. The experiments of RWEMF prove that our algorithm is most efficient, and the best parameters chosen are important to get the best accuracy in this dataset.
+\par In the future, the RWEMF with the best accuracy in this dataset can be extended by more efficient model. The short running time and exquisite mind can help the algorithm being used in real-world web service recommendation easily. The parameters for the hybrid model need more exploration and more study to keep the algorithm more efficient. Although the adherent information of users and service improve the accuracy finitely, there are still more latent information\cite{liu_incorporating_2015}  value should be mined in the dataset. The MAE on 5\% on response-time dataset is 0.5068 now, and the MAE value is relative, however it is good metrics to measure the ability of algorithm in sparse dataset. Further, the MAE would be lower that 0.5000 by the new hybrid model.
 
 %=========================================================================
 \section*{Acknowledgment}
